@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import re
 import math
 import argparse
@@ -12,6 +13,7 @@ import warnings
 
 from snakemake import io
 from snakemake.utils import read_job_properties
+
 
 DEFAULT_JOB_NAME = "snakemake_job"
 QSUB_DEFAULTS = "-cwd -V -j"
@@ -84,11 +86,12 @@ RESOURCE_MAPPING = {
 }
 
 
-def parse_jobscript():
+def parse_jobscript(argv=sys.argv[1:]):
     """Minimal CLI to require/only accept single positional argument."""
     p = argparse.ArgumentParser(description="SGE snakemake submit script")
-    p.add_argument("jobscript", help="Snakemake jobscript with job properties.")
-    return p.parse_args().jobscript
+    p.add_argument(
+        "jobscript", help="Snakemake jobscript with job properties.")
+    return p.parse_args(argv).jobscript
 
 def parse_qsub_defaults(parsed):
     """Unpack QSUB_DEFAULTS."""
@@ -103,7 +106,11 @@ def parse_qsub_defaults(parsed):
             options[arg.strip("-")] = ""
     return options
 
-def parse_qsub_settings(source, resource_mapping=RESOURCE_MAPPING, option_mapping=OPTION_MAPPING):
+
+def parse_qsub_settings(
+        source,
+        resource_mapping=RESOURCE_MAPPING, option_mapping=OPTION_MAPPING):
+
     job_options = { "options" : {}, "resources" : {}}
 
     if type(source) != dict:
@@ -133,16 +140,21 @@ def parse_qsub_settings(source, resource_mapping=RESOURCE_MAPPING, option_mappin
 
     return job_options
 
-def load_cluster_config(path):
-    """Load config to dict either from absolute path or relative to profile dir."""
+
+def load_cluster_config(path=None):
+    """\
+    Load config to dict either from absolute path or relative to profile dir.\
+    """
     if path:
-        path = os.path.join(os.path.dirname(__file__), os.path.expandvars(path))
+        path = os.path.join(
+            os.path.dirname(__file__), os.path.expandvars(path))
         default_cluster_config = io.load_configfile(path)
     else:
         default_cluster_config = {}
     if "__default__" not in default_cluster_config:
         default_cluster_config["__default__"] = {}
     return default_cluster_config
+
 
 def ensure_directory_exists(path):
     """Check if directory exists and create if not"""
@@ -156,6 +168,7 @@ def update_double_dict(outer, inner):
     """Similar to dict.update() but does the update on nested dictionaries"""
     for k, v in outer.items():
         outer[k].update(inner[k])
+
 
 def sge_option_string(key, val):
     if val == "":
@@ -172,51 +185,78 @@ def sge_resource_string(key, val):
         return f"-{key}=" + ("true" if val else "false")
     return f"-l {key}={val}"
 
+
 def submit_job(jobscript, qsub_settings):
     """Submit jobscript and return jobid."""
     flatten = lambda l: [item for sublist in l for item in sublist]
-    batch_options = flatten([sge_option_string(k,v).split() for k, v in qsub_settings["options"].items()])
-    batch_resources = flatten([sge_resource_string(k, v).split() for k, v in qsub_settings["resources"].items()])
+    batch_options = flatten(
+        [
+            sge_option_string(k,v).split()
+            for k, v in qsub_settings["options"].items()
+        ])
+    batch_resources = flatten(
+        [
+            sge_resource_string(k, v).split()
+            for k, v in qsub_settings["resources"].items()
+        ])
     try:
         # -terse means only the jobid is returned rather than the normal 'Your job...' string
-        jobid = subprocess.check_output(["qsub", "-terse"] + batch_options + batch_resources + [jobscript]).decode().rstrip()
+        jobid = subprocess.check_output(
+            ["qsub", "-terse"] + 
+            batch_options + 
+            batch_resources + 
+            [jobscript]).decode().rstrip()
     except subprocess.CalledProcessError as e:
         raise e
     except Exception as e:
         raise e
     return jobid
 
-qsub_settings = { "options" : {}, "resources" : {}}
 
-jobscript = parse_jobscript()
+if __name__ == "__main__":
+    qsub_settings = { "options" : {}, "resources" : {}}
 
-# get the job properties dictionary from snakemake 
-job_properties = read_job_properties(jobscript)
+    jobscript = parse_jobscript()
 
-# load the default cluster config
-cluster_config = load_cluster_config(CLUSTER_CONFIG)
+    # get the job properties dictionary from snakemake 
+    job_properties = read_job_properties(jobscript)
 
-# qsub default arguments
-update_double_dict(qsub_settings, parse_qsub_settings(parse_qsub_defaults(QSUB_DEFAULTS)))
+    # load the default cluster config
+    cluster_config = load_cluster_config(CLUSTER_CONFIG)
 
-# cluster_config defaults
-update_double_dict(qsub_settings, parse_qsub_settings(cluster_config["__default__"]))
+    # qsub default arguments
+    update_double_dict(
+        qsub_settings,
+        parse_qsub_settings(parse_qsub_defaults(QSUB_DEFAULTS)))
 
-# resources defined in the snakemake file (note that these must be integer)
-# we pass an empty dictionary for option_mapping because options should not be
-# specified in the snakemake file
-update_double_dict(qsub_settings, parse_qsub_settings(job_properties.get("resources", {}), option_mapping={}))
+    # cluster_config defaults
+    update_double_dict(
+        qsub_settings,
+        parse_qsub_settings(cluster_config["__default__"]))
 
-# get any rule specific options/resources from the default cluster config
-update_double_dict(qsub_settings, parse_qsub_settings(cluster_config.get(job_properties.get("rule"), {})))
+    # resources defined in the snakemake file (note that these must be integer)
+    # we pass an empty dictionary for option_mapping because options should not be
+    # specified in the snakemake file
+    update_double_dict(
+        qsub_settings,
+        parse_qsub_settings(
+            job_properties.get("resources", {}), option_mapping={}))
 
-# get any options/resources specified through the --cluster-config command line argument
-update_double_dict(qsub_settings, parse_qsub_settings(job_properties.get("cluster", {})))
+    # get any rule specific options/resources from the default cluster config
+    update_double_dict(
+        qsub_settings,
+        parse_qsub_settings(
+            cluster_config.get(job_properties.get("rule"), {})))
 
-# ensure qsub output dirs exist
-for o in ("o", "e"):
-    ensure_directory_exists(qsub_settings["options"][o]) if o in qsub_settings["options"] else None
+    # get any options/resources specified through the --cluster-config command line argument
+    update_double_dict(
+        qsub_settings,
+        parse_qsub_settings(job_properties.get("cluster", {})))
 
-# submit job and echo id back to Snakemake (must be the only stdout)
-print(submit_job(jobscript, qsub_settings))
+    # ensure qsub output dirs exist
+    for o in ("o", "e"):
+        ensure_directory_exists(qsub_settings["options"][o]) \
+            if o in qsub_settings["options"] else None
 
+    # submit job and echo id back to Snakemake (must be the only stdout)
+    print(submit_job(jobscript, qsub_settings))

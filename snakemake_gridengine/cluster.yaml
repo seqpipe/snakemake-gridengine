@@ -3,3 +3,11 @@ __default__:
   join: yes
   output: logs/sge/{cluster.rule}_{cluster.jobid}.log
   error: logs/sge/{cluster.rule}_{cluster.jobid}.log
+  
+  log_dir: "cluster_logs"
+  default_threads: 1
+  default_mem_mb: 1024
+  default_queue: ""
+  latency_wait: 30
+  max_qstat_checks: 3
+  time_between_qstat_checks: 1
