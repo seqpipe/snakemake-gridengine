@@ -178,6 +178,9 @@ class StatusChecker:
 
 
 if __name__ == "__main__":
+    root = logging.getLogger()
+    root.setLevel(logging.ERROR)
+
     jobid = int(sys.argv[1])
     outlog = sys.argv[2]
     status_checker = StatusChecker(jobid, outlog)
