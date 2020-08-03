@@ -8,5 +8,5 @@ __default__:
   default_threads: 1
   default_mem_mb: 1024
   default_queue: ""
-  max_status_checks: 30
-  wait_between_tries: 1
+  max_status_checks: 60
+  wait_between_tries: 2
