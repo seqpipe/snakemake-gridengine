@@ -7,8 +7,9 @@ import subprocess
 from pathlib import Path
 import logging
 
-from .OSLayer import OSLayer
-from .uge_utils import load_cluster_config
+sys.path.append(str(Path(__file__).parent.absolute()))
+from OSLayer import OSLayer
+from uge_utils import load_cluster_config
 
 
 logger = logging.getLogger(__name__)

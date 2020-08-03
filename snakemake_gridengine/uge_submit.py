@@ -10,10 +10,11 @@ from typing import List, Union, Optional
 
 from snakemake.utils import read_job_properties
 
-from .OSLayer import OSLayer
-from .uge_config import Config
-from .uge_utils import load_cluster_config
-from .memory_units import Unit, Memory
+sys.path.append(str(Path(__file__).parent.absolute()))
+
+from uge_config import Config
+from uge_utils import load_cluster_config
+from memory_units import Unit, Memory
 
 PathLike = Union[str, Path]
 
