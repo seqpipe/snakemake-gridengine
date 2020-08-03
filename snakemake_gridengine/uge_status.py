@@ -165,7 +165,6 @@ class StatusChecker:
                 status = self._query_status_using_qstat()
                 if status is not None:
                     return status
-                time.sleep(self.wait_between_tries)
 
                 status = self._query_status_using_qacct()
                 if status is not None:
