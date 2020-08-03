@@ -172,7 +172,8 @@ class StatusChecker:
                     return status
                 time.sleep(self.wait_between_tries)
             except Exception as ex:
-                logger.warning("unexpecte exception", ex)
+                logger.warning("unexpected exception in get_status()", ex)
+                raise ex
 
         return status
 
@@ -183,8 +184,9 @@ if __name__ == "__main__":
 
     jobid = int(sys.argv[1])
     outlog = sys.argv[2]
-    status_checker = StatusChecker(jobid, outlog)
     try:
+        status_checker = StatusChecker(jobid, outlog)
         print(status_checker.get_status())
-    except:
+    except Exception as ex:
+        logger.error("unexpected exception", ex)
         sys.exit(0)
