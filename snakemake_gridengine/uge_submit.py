@@ -242,13 +242,12 @@ class Submitter:
             jobid = match.group(1)
             jobid = int(jobid)
 
-            return f"{jobid} {self.outlog}"
+            return f"{jobid} {self.errlog}"
         except subprocess.CalledProcessError as error:
             raise QsubInvocationError(error)
         except AttributeError as error:
             raise JobidNotFoundError(error)
 
-        return None
 
 if __name__ == "__main__":
     workdir = Path().resolve()

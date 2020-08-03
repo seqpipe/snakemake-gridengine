@@ -4,3 +4,4 @@ cluster-status: "uge_status.py"
 jobscript: jobscript.sh
 jobs: 160
 max-status-checks-per-second: 1
+latency-wait: 30
