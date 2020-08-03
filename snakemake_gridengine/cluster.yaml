@@ -9,5 +9,5 @@ __default__:
   default_mem_mb: 1024
   default_queue: ""
   latency_wait: 30
-  max_qstat_checks: 3
-  time_between_qstat_checks: 1
+  max_status_checks: 50
+  wait_between_tries: 1

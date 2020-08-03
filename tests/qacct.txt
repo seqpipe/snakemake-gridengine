@@ -1,0 +1,54 @@
+==============================================================
+qname        all.q               
+hostname     wigclust11.cshl.edu 
+group        iossifovlab         
+owner        chorbadj            
+project      NONE                
+department   defaultdepartment   
+jobname      test_qstat.sh       
+jobnumber    1504976             
+taskid       undefined
+pe_taskid    NONE                
+account      sge                 
+priority     0                   
+cwd          /mnt/wigclust18/data/safe/chorbadj/temp
+submit_host  wigclust18.cshl.edu 
+submit_cmd   qsub -V -cwd ./test_qstat.sh
+qsub_time    08/03/2020 07:48:20.273
+start_time   08/03/2020 07:48:20.919
+end_time     08/03/2020 07:53:22.139
+granted_pe   NONE                
+slots        1                   
+failed       0    
+deleted_by   NONE
+exit_status  0                   
+ru_wallclock 301.220      
+ru_utime     0.034        
+ru_stime     0.007        
+ru_maxrss    6376                
+ru_ixrss     0                   
+ru_ismrss    0                   
+ru_idrss     0                   
+ru_isrss     0                   
+ru_minflt    1513                
+ru_majflt    0                   
+ru_nswap     0                   
+ru_inblock   0                   
+ru_oublock   176                 
+ru_msgsnd    0                   
+ru_msgrcv    0                   
+ru_nsignals  0                   
+ru_nvcsw     188                 
+ru_nivcsw    4                   
+wallclock    302.236      
+cpu          0.040        
+mem          0.000             
+io           0.000             
+iow          1.020             
+ioops        163                 
+maxvmem      17.488M
+maxrss       0.000
+maxpss       0.000
+arid         undefined
+jc_name      NONE
+bound_cores  NONE

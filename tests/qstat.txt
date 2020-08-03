@@ -1,0 +1,110 @@
+==============================================================
+job_number:                 1504976
+jclass:                     NONE
+exec_file:                  job_scripts/1504976
+submission_time:            08/03/2020 07:48:20.273
+owner:                      chorbadj
+uid:                        60000
+group:                      iossifovlab
+gid:                        791
+supplementary group:        iossifovlab, docker
+sge_o_home:                 /home/chorbadj
+sge_o_log_name:             chorbadj
+sge_o_path:                 /data/safe/chorbadj/anaconda3/condabin:/opt/sge/bin/lx-amd64:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/chorbadj/bin
+sge_o_shell:                /bin/bash
+sge_o_workdir:              /mnt/wigclust18/data/safe/chorbadj/temp
+sge_o_host:                 wigclust18
+account:                    sge
+cwd:                        /mnt/wigclust18/data/safe/chorbadj/temp
+hard resource_list:         h_vmem=2G
+mail_list:                  chorbadj@wigclust18.cshl.edu
+notify:                     FALSE
+job_name:                   test_qstat.sh
+priority:                   0
+jobshare:                   0
+env_list:                   CONDA_SHLVL=0,CONDA_EXE=/data/safe/chorbadj/anaconda3/bin/conda,LC_MEASUREMENT=en_US.UTF-8,SSH_CONNECTION=143.48.116.7 54054 143.48.37.43 22,LC_PAPER=en_US.UTF-8,LC_MONETARY=en_US.UTF-8,LANG=en_US.UTF-8,SGE_CELL=default,S_COLORS=auto,_CE_M=,LC_NAME=en_US.UTF-8,XDG_SESSION_ID=55300,MODULES_CMD=/usr/lib/x86_64-linux-gnu/modulecmd.tcl,USER=chorbadj,ENV=/usr/share/modules/init/profile.sh,MSM_PRODUCT=MSM,PWD=/mnt/wigclust18/data/safe/chorbadj/temp,HOME=/home/chorbadj,CONDA_PYTHON_EXE=/data/safe/chorbadj/anaconda3/bin/python,SSH_CLIENT=143.48.116.7 54054 22,BASH_ENV=/usr/share/modules/init/bash,XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop,_CE_CONDA=,SGE_ROOT=/opt/sge,LC_ADDRESS=en_US.UTF-8,LC_NUMERIC=en_US.UTF-8,LOADEDMODULES=,GTK_MODULES=appmenu-gtk-module,SSH_TTY=/dev/pts/10,MAIL=/var/mail/chorbadj,UBUNTU_MENUPROXY=1,TERM=screen,SHELL=/bin/bash,MSM_HOME=/usr/local/MegaRAID Storage Manager,USE_SYSTEMD=false,SHLVL=1,MANPATH=/opt/sge/man:/usr/share/man:/usr/local/share/man,LC_TELEPHONE=en_US.UTF-8,MODULEPATH=/etc/environment-modules/modules:/usr/share/modules/versions:/usr/share/modules/$MODULE_VERSION/modulefiles:/usr/share/modules/modulefiles,LOGNAME=chorbadj,DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/60000/bus,XDG_RUNTIME_DIR=/run/user/60000,MODULEPATH_modshare=/usr/share/modules/$MODULE_VERSION/modulefiles:1:/etc/environment-modules/modules:1:/usr/share/modules/modulefiles:1:/usr/share/modules/versions:1,PATH=/data/safe/chorbadj/anaconda3/condabin:/opt/sge/bin/lx-amd64:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/chorbadj/bin,LC_IDENTIFICATION=en_US.UTF-8,MODULESHOME=/usr/share/modules,SGE_CLUSTER_NAME=wigcluster,LC_TIME=en_US.UTF-8,BASH_FUNC_module%%=() {  _moduleraw "$*" 2>&1
+},BASH_FUNC_switchml%%=() {  typeset swfound=1;
+ if [ "${MODULES_USE_COMPAT_VERSION:-0}" = '1' ]; then
+ typeset swname='main';
+ if [ -e /usr/lib/x86_64-linux-gnu/modulecmd.tcl ]; then
+ typeset swfound=0;
+ unset MODULES_USE_COMPAT_VERSION;
+ fi;
+ else
+ typeset swname='compatibility';
+ if [ -e /usr/lib/x86_64-linux-gnu/modulecmd-compat ]; then
+ typeset swfound=0;
+ MODULES_USE_COMPAT_VERSION=1;
+ export MODULES_USE_COMPAT_VERSION;
+ fi;
+ fi;
+ if [ $swfound -eq 0 ]; then
+ echo "Switching to Modules $swname version";
+ source /usr/share/modules/init/bash;
+ else
+ echo "Cannot switch to Modules $swname version, command not found";
+ return 1;
+ fi
+},BASH_FUNC__moduleraw%%=() {  unset _mlre _mlIFS _mlshdbg;
+ if [ "${MODULES_SILENT_SHELL_DEBUG:-0}" = '1' ]; then
+ case "$-" in 
+ *v*x*)
+ set +vx;
+ _mlshdbg='vx'
+ ;;
+ *v*)
+ set +v;
+ _mlshdbg='v'
+ ;;
+ *x*)
+ set +x;
+ _mlshdbg='x'
+ ;;
+ *)
+ _mlshdbg=''
+ ;;
+ esac;
+ fi;
+ if [ -n "${IFS+x}" ]; then
+ _mlIFS=$IFS;
+ fi;
+ IFS=' ';
+ for _mlv in ${MODULES_RUN_QUARANTINE:-};
+ do
+ if [ "${_mlv}" = "${_mlv##*[!A-Za-z0-9_]}" -a "${_mlv}" = "${_mlv#[0-9]}" ]; then
+ if [ -n "`eval 'echo ${'$_mlv'+x}'`" ]; then
+ _mlre="${_mlre:-}${_mlv}_modquar='`eval 'echo ${'$_mlv'}'`' ";
+ fi;
+ _mlrv="MODULES_RUNENV_${_mlv}";
+ _mlre="${_mlre:-}${_mlv}='`eval 'echo ${'$_mlrv':-}'`' ";
+ fi;
+ done;
+ if [ -n "${_mlre:-}" ]; then
+ _mlre="eval ${_mlre}";
+ fi;
+ eval `${_mlre:-}/usr/bin/tclsh /usr/lib/x86_64-linux-gnu/modulecmd.tcl bash $*`;
+ _mlstatus=$?;
+ if [ -n "${_mlIFS+x}" ]; then
+ IFS=$_mlIFS;
+ else
+ unset IFS;
+ fi;
+ if [ -n "${_mlshdbg:-}" ]; then
+ set -$_mlshdbg;
+ fi;
+ unset _mlre _mlv _mlrv _mlIFS _mlshdbg;
+ return $_mlstatus
+},_=/opt/sge/bin/lx-amd64/qsub,OLDPWD=/mnt/wigclust18/data/safe/chorbadj
+script_file:                ./test_qstat.sh
+department:                 defaultdepartment
+binding:                    NONE
+mbind:                      NONE
+submit_cmd:                 qsub -V -cwd ./test_qstat.sh
+category_id:                5054
+request_dispatch_info:      FALSE
+start_time            1:    08/03/2020 07:48:20.278
+job_state             1:    r
+exec_host_list        1:    wigclust11.cshl.edu:1
+granted_req.          1:    h_vmem=2.000G
+usage                 1:    wallclock=00:00:40, cpu=00:00:00, mem=0.00006 GBs, io=0.00026 GB, iow=1.020 s, ioops=163, vmem=17.488M, maxvmem=17.488M
+scheduling info:            -

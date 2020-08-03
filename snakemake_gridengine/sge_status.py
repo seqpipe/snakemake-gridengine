@@ -6,8 +6,8 @@ import sys
 import time
 import logging
 
-logger = logging.getLogger("__name__")
-logger.setLevel(40)
+logger = logging.getLogger(__name__)
+
 
 STATUS_ATTEMPTS = 20
 
