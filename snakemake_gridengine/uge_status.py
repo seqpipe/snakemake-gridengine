@@ -154,9 +154,9 @@ class StatusChecker:
             if failed != "" and exit_state != "":
                 break
         if failed == "0" and exit_state == "0":
-            return StatusChecker.SUCCESS
+            return "SUCCESS"
         else:
-            return StatusChecker.FAILED
+            return "FAIL"
 
     def get_status(self) -> str:
         status = None
