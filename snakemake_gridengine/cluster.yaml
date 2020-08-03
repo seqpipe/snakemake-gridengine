@@ -9,5 +9,5 @@ __default__:
   default_mem_mb: 1024
   default_queue: ""
   latency_wait: 30
-  max_status_checks: 50
+  max_status_checks: 30
   wait_between_tries: 1
